@@ -1,5 +1,6 @@
 # Fun-Study-Manager_tkinter
 Ever felt bored while studying? Have you ever decided to study a lot, but ended up doing nothing? Have you ever studied for 5mins, then taken a 4 hour break?
+
 This Desktop GUI application has been made with python3 and tkinter. 
 It has a setup file for cx_Freeze already configured, so a simple console command can export it into an executable. 
 
