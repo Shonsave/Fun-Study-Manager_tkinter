@@ -108,9 +108,15 @@ def do_interval(int_type: str):
             root.after(1000, lambda: do_interval(int_type))
             time_left_mins = time_left // 60
             time_left_secs = time_left % 60
-            time_left_label.config(text="Time left: " + str(time_left_mins) + ":" + str(time_left_secs))
+
+            if int_type.lower() == 's':
+                time_left_label.config(text="Study - time left: " + str(time_left_mins) + ":" + str(time_left_secs))
+            else:
+                time_left_label.config(text="Break - time left: " + str(time_left_mins) + ":" + str(time_left_secs))
+
         else:
-            winsound.Beep(3000, 1500)
+            for i in range(3):
+                root.after(500, winsound.Beep(2000, 1000))
 
             if int_type.lower() == 's':
                 next_interval = 'b'
