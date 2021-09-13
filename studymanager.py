@@ -42,6 +42,9 @@ break_time = int(break_time_sv.get()) * 60
 
 global time_left
 time_left = study_time
+global total_study_time_elapsed
+total_study_time_elapsed = 0
+
 global current_interval_type
 current_interval_type = 's'
 
@@ -103,14 +106,26 @@ def study_manager(int_type: str):
 def do_interval(int_type: str):
     if study_ongoing:
         global time_left
+        global total_study_time_elapsed
+
         if time_left > 0:
             time_left -= 1
+
+            if int_type.lower() == 's':
+                total_study_time_elapsed += 1
+
+            total_time_elapsed_mins = total_study_time_elapsed // 60
+            total_time_elapsed_secs = total_study_time_elapsed % 60
+
             root.after(1000, lambda: do_interval(int_type))
             time_left_mins = time_left // 60
             time_left_secs = time_left % 60
 
             if int_type.lower() == 's':
                 time_left_label.config(text="Study - time left: " + str(time_left_mins) + ":" + str(time_left_secs))
+
+                total_time_elapsed_label.config(text="Total study time elapsed: " + str(total_time_elapsed_mins) + ":" + str(total_time_elapsed_secs))
+
             else:
                 time_left_label.config(text="Break - time left: " + str(time_left_mins) + ":" + str(time_left_secs))
 
@@ -136,6 +151,9 @@ def terminate_studies():
     time_left_label.config(text="Time left: 00:00")
     study_time_select.config(state='normal')
     break_time_select.config(state='normal')
+
+    global total_study_time_elapsed
+    total_study_time_elapsed = 0
 
 
 def pause_play_study():
@@ -171,5 +189,8 @@ terminate_study_button = tk.Button(start_button_frame, text='Terminate Studies..
                                    height=3)
 start_pause_button.grid(row=0, column=0, padx=10)
 terminate_study_button.grid(row=0, column=1, padx=10)
+
+total_time_elapsed_label = tk.Label(root, text='Total study time elapsed: 00:00', font=("Calibri", 16, "italic"))
+total_time_elapsed_label.grid(row=6, column=0, pady=(60, 0))
 
 root.mainloop()
